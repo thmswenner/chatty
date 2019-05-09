@@ -11,7 +11,8 @@ class App extends Component {
 
     this.state = {
       currentUser: {name: ""},
-      messages: []
+      messages: [],
+      notification: ""
     }
 
     this.socket = {}
@@ -31,23 +32,33 @@ class App extends Component {
     this.socket.onmessage = function(message) {
       let incomingMsg = JSON.parse(message.data);
       incomingMsg.id = uuidv1();
-
-      self.setState({messages: self.state.messages.concat(incomingMsg)})
+      if (incomingMsg.type === "incomingMessage") {
+        self.setState({messages: self.state.messages.concat(incomingMsg)});
+      } else if (incomingMsg.type === "incomingNotification") {
+        console.log(incomingMsg)
+        self.setState({notification: incomingMsg.notification});
+      } else {
+        throw new Error('Unknown event type' + message.type)
+      }
     }
   }
 
   addNewMessage(content) {
-    console.log(content)
-    const output = `{"type": "postMessage", "username": "${content.name}", "content": "${content.content}"}`
-    this.socket.send(output);
+    const message = `{"type": "postMessage", "username": "${content.name}", "content": "${content.content}"}`
+    this.socket.send(message);
     this.setState({currentUser: {name: content.name}})
+    if (this.state.currentUser.name !== content.name) {
+      const notification = `{"type": "postNotification", "notification": "${this.state.currentUser.name} changed username to ${content.name}"}`
+      this.socket.send(notification);
+    }
   }
 
   render() {
+    console.log(this.state)
     return (
       <div>
         <NavBar />
-        <MessageList messages={this.state.messages}/>
+        <MessageList notification={this.state.notification} messages={this.state.messages}/>
         <ChatBar addNewMessage={this.addNewMessage} username={this.state.currentUser.name} />
       </div>
     );

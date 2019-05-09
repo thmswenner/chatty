@@ -9,9 +9,14 @@ const MessageList = props => {
     content = { e.content } />
   })
 
+  const notification = <div className="message system">
+    <p>{props.notification}</p>
+  </div>
+
   return (
     <main className="messages">
       {list}
+      {notification}
     </main>
   );
 }
