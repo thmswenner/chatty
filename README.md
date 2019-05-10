@@ -3,7 +3,7 @@
 
 Chatty is a simple single-page web application that allows 2 or more people to communicate to each other threw websockets. This application uses: HTML, CSS, REACT, JAVASCRIPT, NODE.js & WEBSOCKETS.
 
-!["Chatty main page"](https://github.com/thmswenner/chatty/blob/master/public/images/conversation.png)
+!["Chatty main page"](https://github.com/thmswenner/chatty/blob/master/public/images/standard.png)
 !["Conversation"](https://github.com/thmswenner/chatty/blob/master/public/images/conversation.png)
 
 ### Usage
