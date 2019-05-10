@@ -1,7 +1,7 @@
-React Boilerplate
+#Chatty
 =====================
 
-A minimal and light dev environment for ReactJS.
+Chatty is a simple single-page web application that allows 2 or more people to communicate to each other threw websockets. This application uses: HTML, CSS, REACT, JAVASCRIPT, NODE.js & WEBSOCKETS.
 
 ### Usage
 

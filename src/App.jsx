@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import NavBar from './NavBar.jsx';
-import MessageList from './MessageList.jsx';
-import ChatBar from './ChatBar.jsx';
-const uuidv1 = require('uuid/v1');
+import React, {Component} from "react";
+import NavBar from "./NavBar.jsx";
+import MessageList from "./MessageList.jsx";
+import ChatBar from "./ChatBar.jsx";
+const uuidv1 = require("uuid/v1");
 
 
 class App extends Component {
@@ -22,11 +22,10 @@ class App extends Component {
 
 
   componentDidMount() {
-    this.socket = new WebSocket('ws://localhost:3001');
+    this.socket = new WebSocket("ws://localhost:3001");
 
     this.socket.onopen = (event) => {
-      console.log('Connected To Server')
-
+      console.log("Connected To Server")
     }
 
     const self = this;
@@ -42,7 +41,7 @@ class App extends Component {
       } else if (incomingMsg.type === "incomingNotification") {
         self.setState({notification: incomingMsg.notification});
       } else {
-        throw new Error('Unknown event type' + message.type)
+        throw new Error("Unknown event type" + message.type)
       }
     }
     
