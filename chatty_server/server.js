@@ -27,16 +27,22 @@ wss.broadcast = function broadcast (data) {
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   console.log('Client connected');
+  wss.broadcast(JSON.stringify({type: "incomingConnection", connected: wss.clients.size}));
+
 
   ws.on('message', (message) => {
-    const messageJSON = JSON.parse(message)
+    const messageJSON = JSON.parse(message)    
 
-    if (messageJSON.type === "postMessage") {
-      messageJSON.type = "incomingMessage"
-    } else if (messageJSON.type === "postNotification") {
-      messageJSON.type = "incomingNotification"
+    switch (messageJSON.type) {
+      case 'postMessage':
+      messageJSON.type = 'incomingMessage'
+      break;
+
+      case 'postNotification':
+      messageJSON.type = 'incomingNotification'
+      break;
     }
-    
+
     wss.broadcast(JSON.stringify(messageJSON));
   })
 
