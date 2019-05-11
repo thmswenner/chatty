@@ -6,17 +6,14 @@ const MessageList = props => {
     return <Message 
     key = { e.id }
     username = { e.username }
-    content = { e.content } />
+    content = { e.content }
+    notification = {e.notification} />
   })
 
-  const notification = <div className="message system">
-    <p>{props.notification}</p>
-  </div>
 
   return (
     <main className="messages">
       {list}
-      {notification}
     </main>
   );
 }

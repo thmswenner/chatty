@@ -12,7 +12,6 @@ class App extends Component {
     this.state = {
       currentUser: {name: ""},
       messages: [],
-      notification: "",
       connected: ""
     }
 
@@ -39,7 +38,7 @@ class App extends Component {
       } else if (incomingMsg.type === "incomingConnection") {
         self.setState({connected: incomingMsg.connected})
       } else if (incomingMsg.type === "incomingNotification") {
-        self.setState({notification: incomingMsg.notification});
+        self.setState({messages: self.state.messages.concat(incomingMsg)});
       } else {
         throw new Error("Unknown event type" + message.type)
       }

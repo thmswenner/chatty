@@ -9,13 +9,9 @@ class ChatBar extends Component {
       name: "",
       content: "",
     }
-
-    this.handleInput = this.handleInput.bind(this);
-    this.handleEnter = this.handleEnter.bind(this);
-    this.handleUser = this.handleUser.bind(this);
   }
 
-  handleEnter(event) {
+  handleEnter = (event) => {
     if (event.key === "Enter") {
       this.props.addNewMessage(this.state)
       
@@ -23,13 +19,13 @@ class ChatBar extends Component {
     }
   }
 
-  handleInput(event) {
+  handleInput = (event) => {
     this.setState({
       content: event.target.value
     })
   }
 
-  handleUser(event) {
+  handleUser = (event) => {
     this.setState({
       name: event.target.value
     })
