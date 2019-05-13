@@ -1,6 +1,8 @@
 const express = require('express');
 const WebSocket = require('ws');
 const SocketServer = WebSocket.Server;
+const uuidv1 = require("uuid/v1");
+
 
 // Set the port to 3001
 const PORT = 3001;
@@ -36,6 +38,7 @@ wss.on('connection', (ws) => {
     switch (messageJSON.type) {
       case "postMessage":
       messageJSON.type = "incomingMessage"
+      messageJSON.id = uuidv1();
       break;
 
       case "postNotification":

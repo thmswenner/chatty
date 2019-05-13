@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import NavBar from "./NavBar.jsx";
 import MessageList from "./MessageList.jsx";
 import ChatBar from "./ChatBar.jsx";
-const uuidv1 = require("uuid/v1");
 
 
 class App extends Component {
@@ -32,7 +31,7 @@ class App extends Component {
     this.socket.onmessage = function(message) {
 
       let incomingMsg = JSON.parse(message.data);
-      incomingMsg.id = uuidv1();
+      // incomingMsg.id = uuidv1();
 
       switch (incomingMsg.type) {
         case "incomingMessage":
@@ -55,8 +54,8 @@ class App extends Component {
 
   addNewMessage(content) {
     if (content.name === "" && content.content) {
-      const message = `{"type": "postMessage", "username": "${this.state.currentUser.name}", "content": "${content.content}"}`
-      this.socket.send(message)
+      const anonMessage = `{"type": "postMessage", "username": "${this.state.currentUser.name}", "content": "${content.content}"}`
+      this.socket.send(anonMessage)
     } else if (content.name !== this.state.currentUser.username && content.content) {
       this.setState({currentUser: {name: content.name}})
       const message = `{"type": "postMessage", "username": "${content.name}", "content": "${content.content}"}`
