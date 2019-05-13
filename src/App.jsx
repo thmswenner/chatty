@@ -33,17 +33,23 @@ class App extends Component {
       let incomingMsg = JSON.parse(message.data);
       incomingMsg.id = uuidv1();
 
-      if (incomingMsg.type === "incomingMessage") {
-        self.setState({messages: self.state.messages.concat(incomingMsg)});
-      } else if (incomingMsg.type === "incomingConnection") {
-        self.setState({connected: incomingMsg.connected})
-      } else if (incomingMsg.type === "incomingNotification") {
-        self.setState({messages: self.state.messages.concat(incomingMsg)});
-      } else {
+      switch (incomingMsg.type) {
+        case "incomingMessage":
+        this.setState({messages: self.state.messages.concat(incomingMsg)});
+        break;
+
+        case "incomingConnection":
+        this.setState({connected: incomingMsg.connected})
+        Break;
+
+        case "incomingNotification":
+        this.setState({messages: self.state.messages.concat(incomingMsg)});
+        break;
+
+        default:
         throw new Error("Unknown event type" + message.type)
       }
     }
-    
   }
 
   addNewMessage(content) {
