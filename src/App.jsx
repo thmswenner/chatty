@@ -10,7 +10,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentUser: {name: ""},
+      currentUser: {name: "Anonymous"},
       messages: [],
       connected: ""
     }
@@ -30,20 +30,21 @@ class App extends Component {
     const self = this;
 
     this.socket.onmessage = function(message) {
+
       let incomingMsg = JSON.parse(message.data);
       incomingMsg.id = uuidv1();
 
       switch (incomingMsg.type) {
         case "incomingMessage":
-        this.setState({messages: self.state.messages.concat(incomingMsg)});
+        self.setState({messages: self.state.messages.concat(incomingMsg)});
         break;
 
         case "incomingConnection":
-        this.setState({connected: incomingMsg.connected})
-        Break;
+        self.setState({connected: incomingMsg.connected})
+        break;
 
         case "incomingNotification":
-        this.setState({messages: self.state.messages.concat(incomingMsg)});
+        self.setState({messages: self.state.messages.concat(incomingMsg)});
         break;
 
         default:
@@ -53,14 +54,15 @@ class App extends Component {
   }
 
   addNewMessage(content) {
-    const message = `{"type": "postMessage", "username": "${content.name}", "content": "${content.content}"}`
-    this.socket.send(message);
-    this.setState({currentUser: {name: content.name}})
-    if(this.state.currentUser.name === ''){
-      return;
-    } else if (this.state.currentUser.name !== content.name) {
+    if (content.name === "" && content.content) {
+      const message = `{"type": "postMessage", "username": "${this.state.currentUser.name}", "content": "${content.content}"}`
+      this.socket.send(message)
+    } else if (content.name !== this.state.currentUser.username && content.content) {
+      this.setState({currentUser: {name: content.name}})
+      const message = `{"type": "postMessage", "username": "${content.name}", "content": "${content.content}"}`
       const notification = `{"type": "postNotification", "notification": "${this.state.currentUser.name} changed username to ${content.name}"}`
       this.socket.send(notification);
+      this.socket.send(message)
     }
   }
 
@@ -68,7 +70,7 @@ class App extends Component {
     return (
       <div>
         <NavBar numberOfUser={this.state.connected}/>
-        <MessageList notification={this.state.notification} messages={this.state.messages}/>
+        <MessageList username={this.state.currentUser.name} notification={this.state.notification} messages={this.state.messages}/>
         <ChatBar addNewMessage={this.addNewMessage} username={this.state.currentUser.name} />
       </div>
     );

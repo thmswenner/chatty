@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 
 
 class ChatBar extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       name: "",
@@ -26,6 +26,7 @@ class ChatBar extends Component {
   }
 
   handleUser = (event) => {
+    console.log(event)
     this.setState({
       name: event.target.value
     })

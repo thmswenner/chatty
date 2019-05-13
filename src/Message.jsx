@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-const Message = props => {
+function Message(props) {
   return (
     <div>
       <div className="message">
